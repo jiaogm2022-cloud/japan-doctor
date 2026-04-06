@@ -30,7 +30,7 @@ export default function HowItWorks() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {t.howItWorks.steps.map((s, i) => (
             <div key={i} className="relative group">
-              {i < 5 && <div className="hidden lg:block absolute top-10 left-full w-8 border-t-2 border-dashed border-primary/20 z-0" />}
+              {i < 5 && (i + 1) % 3 !== 0 && <div className="hidden lg:block absolute top-10 left-full w-8 border-t-2 border-dashed border-primary/20 z-0" />}
               <div className="bg-white rounded-2xl p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 relative z-10">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center shrink-0">{stepIcons[i]}</div>

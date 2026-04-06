@@ -193,6 +193,9 @@ const en: Translations = {
     terms: "Terms of Service",
     and: " and ",
     privacy: "Privacy Policy",
+    successTitle: "Booking Submitted",
+    successDesc: "We will contact you shortly to confirm your appointment.",
+    bookAgain: "Book Again",
   },
 
   // Footer

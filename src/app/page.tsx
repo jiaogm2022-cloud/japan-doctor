@@ -8,6 +8,8 @@ import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
 import Booking from "@/components/Booking";
 import Footer from "@/components/Footer";
+import TawkTo from "@/components/TawkTo";
+import FloatingContact from "@/components/FloatingContact";
 
 export default function Home() {
   return (
@@ -24,6 +26,8 @@ export default function Home() {
         <Booking />
       </main>
       <Footer />
+      <TawkTo />
+      <FloatingContact />
     </>
   );
 }

@@ -193,6 +193,9 @@ const ja: Translations = {
     terms: "利用規約",
     and: "および",
     privacy: "プライバシーポリシー",
+    successTitle: "予約が送信されました",
+    successDesc: "確認のためまもなくご連絡いたします。",
+    bookAgain: "再度予約する",
   },
 
   // Footer

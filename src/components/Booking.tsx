@@ -1,18 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const langOptions = [
   { value: "zh", label: "中文" },
   { value: "en", label: "English" },
   { value: "ja", label: "日本語" },
+  { value: "ko", label: "한국어" },
+  { value: "vi", label: "Tiếng Việt" },
 ];
 
 const deptValues = ["internal", "dermatology", "ent", "pediatrics", "gynecology", "aesthetic"];
 
+const BOOKINGS_KEY = "jd_bookings";
+
 export default function Booking() {
   const { t } = useLanguage();
   const b = t.booking;
+  const [form, setForm] = useState({ name: "", phone: "", email: "", lang: "zh", dept: "", symptoms: "" });
+  const [submitted, setSubmitted] = useState(false);
 
   return (
     <section id="booking" className="py-20 lg:py-28 bg-gradient-to-br from-primary via-primary-dark to-[#003366] text-white relative overflow-hidden">
@@ -89,24 +96,45 @@ export default function Booking() {
 
           <div className="bg-white rounded-2xl p-8 text-foreground shadow-2xl">
             <h3 className="text-xl font-bold mb-6">{b.formTitle}</h3>
-            <form className="space-y-4">
+            {submitted ? (
+              <div className="py-10 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </div>
+                <p className="font-semibold text-foreground text-lg">{b.successTitle}</p>
+                <p className="text-sm text-gray-500 mt-2">{b.successDesc}</p>
+                <button onClick={() => setSubmitted(false)} className="mt-6 text-sm text-primary underline">{b.bookAgain}</button>
+              </div>
+            ) : (
+            <form className="space-y-4" onSubmit={(e) => {
+              e.preventDefault();
+              const booking = { ...form, id: `booking-${Date.now()}`, status: "pending", createdAt: new Date().toISOString() };
+              const stored = localStorage.getItem(BOOKINGS_KEY);
+              const list = stored ? JSON.parse(stored) : [];
+              list.unshift(booking);
+              localStorage.setItem(BOOKINGS_KEY, JSON.stringify(list));
+              setSubmitted(true);
+              setForm({ name: "", phone: "", email: "", lang: "zh", dept: "", symptoms: "" });
+            }}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{b.nameLabel}</label>
-                <input type="text" placeholder={b.namePlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                <input required type="text" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={b.namePlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{b.phoneLabel}</label>
-                  <input type="tel" placeholder={b.phonePlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                  <input required type="tel" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} placeholder={b.phonePlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{b.emailLabel}</label>
-                  <input type="email" placeholder={b.emailPlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                  <input type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder={b.emailPlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{b.langLabel}</label>
-                <select className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white">
+                <select value={form.lang} onChange={(e) => setForm((f) => ({ ...f, lang: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white">
                   {langOptions.map((l) => (
                     <option key={l.value} value={l.value}>{l.label}</option>
                   ))}
@@ -114,7 +142,7 @@ export default function Booking() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{b.deptLabel}</label>
-                <select className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white">
+                <select required value={form.dept} onChange={(e) => setForm((f) => ({ ...f, dept: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white">
                   <option value="">{b.deptPlaceholder}</option>
                   {b.deptOptions.map((opt, i) => (
                     <option key={i} value={deptValues[i]}>{opt}</option>
@@ -123,7 +151,7 @@ export default function Booking() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{b.symptomsLabel}</label>
-                <textarea rows={3} placeholder={b.symptomsPlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" />
+                <textarea rows={3} value={form.symptoms} onChange={(e) => setForm((f) => ({ ...f, symptoms: e.target.value }))} placeholder={b.symptomsPlaceholder} className="w-full px-4 py-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" />
               </div>
               <button type="submit" className="w-full bg-gradient-to-r from-primary to-accent text-white py-4 rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-primary/25 transition-all duration-300">
                 {b.submit}
@@ -132,6 +160,7 @@ export default function Booking() {
                 {b.agreement}<a href="#" className="text-primary underline">{b.terms}</a>{b.and}<a href="#" className="text-primary underline">{b.privacy}</a>
               </p>
             </form>
+            )}
           </div>
         </div>
       </div>

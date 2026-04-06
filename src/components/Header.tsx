@@ -9,6 +9,8 @@ const languages: { code: Lang; label: string }[] = [
   { code: "zh", label: "中文" },
   { code: "en", label: "English" },
   { code: "ja", label: "日本語" },
+  { code: "ko", label: "한국어" },
+  { code: "vi", label: "Tiếng Việt" },
 ];
 
 export default function Header() {

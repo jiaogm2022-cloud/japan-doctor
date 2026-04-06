@@ -191,6 +191,9 @@ const zh = {
     terms: "服务条款",
     and: "和",
     privacy: "隐私政策",
+    successTitle: "预约已提交",
+    successDesc: "我们将尽快与您联系确认时间",
+    bookAgain: "再次预约",
   },
 
   // Footer

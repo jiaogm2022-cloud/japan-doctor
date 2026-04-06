@@ -42,9 +42,9 @@ const contacts = [
   },
 ];
 
-const copyLabels: Record<string, string> = { zh: "已复制", en: "Copied", ja: "コピー済" };
-const contactLabels: Record<string, string> = { zh: "联系我们", en: "Contact", ja: "お問合せ" };
-const wechatCopyLabels: Record<string, string> = { zh: "点击复制微信号", en: "Tap to copy WeChat ID", ja: "IDをコピー" };
+const copyLabels: Record<string, string> = { zh: "已复制", en: "Copied", ja: "コピー済", ko: "복사됨", vi: "Đã sao chép" };
+const contactLabels: Record<string, string> = { zh: "联系我们", en: "Contact", ja: "お問合せ", ko: "문의하기", vi: "Liên hệ" };
+const wechatCopyLabels: Record<string, string> = { zh: "点击复制微信号", en: "Tap to copy WeChat ID", ja: "IDをコピー", ko: "WeChat ID 복사", vi: "Nhấn để sao chép WeChat ID" };
 
 export default function FloatingContact() {
   const [open, setOpen] = useState(false);
