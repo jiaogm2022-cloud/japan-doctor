@@ -1,0 +1,11 @@
+# Japan Doctor - Robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://www.nextdao.ai/sitemap.xml
+
+# Crawl-delay (optional, for respectful crawling)
+Crawl-delay: 1

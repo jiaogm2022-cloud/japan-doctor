@@ -10,10 +10,12 @@ import Booking from "@/components/Booking";
 import Footer from "@/components/Footer";
 import TawkTo from "@/components/TawkTo";
 import FloatingContact from "@/components/FloatingContact";
+import StructuredData from "@/components/StructuredData";
 
 export default function Home() {
   return (
     <>
+      <StructuredData />
       <Header />
       <main>
         <Hero />
